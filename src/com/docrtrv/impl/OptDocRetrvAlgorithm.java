@@ -1,11 +1,131 @@
 package com.docrtrv.impl;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.*;
+import java.util.Map.Entry;
 public class OptDocRetrvAlgorithm {
 
 	//Main method just for testing purpose
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		int no_of_Records = 6;
+		String file[] = {"map1.txt", "map2.txt", "map3.txt", "map4.txt" };
+		processOptDocRetrv(no_of_Records, file);
+			
+	}
+	
+	public static void processOptDocRetrv(int recordsRequired, String file[])
+	{
+		Map<Integer,Double> merger = new HashMap<Integer,Double>();
+		int no_of_Records = recordsRequired;
+		double m_asim = 0;
+		int ptr = 0;
+		Double min = 2.0;
+		Double this_min;
+
+		ArrayList<Map<Integer,Double>> dblist = new ArrayList<Map<Integer,Double>>(); 
+		for(String f: file){
+			Map<Integer,Double> map = new HashMap<Integer,Double>();
+			map = OptDocRetrvAlgorithm.readfile(f);
+			//System.out.println("map: " + map);
+			dblist.add(map);
+		}
+		//System.out.println("dblist: "+dblist);
+		//get m_asim val
+		for(Map mp:dblist){
+			//System.out.println("m: "+mp);
+			ptr++;
+			this_min = Collections.max(mp.values());
+			
+			if(this_min < min && ptr <= 2)
+				{
+					m_asim = this_min; 
+					min =this_min;
+				}
+		}
+		
+		//set less similarity value to m_asim
+		//System.out.println("final m_asim:"+m_asim);
+		
+		//access the db's list
+		for(Map mp:dblist){
+			Iterator<Entry<Integer, Double>> it = mp.entrySet().iterator();
+			    while (it.hasNext()) {
+			    	//System.out.println("--"+it.next());
+			        Map.Entry<Integer, Double> pair = (Map.Entry)it.next();
+			        if(pair.getValue() >= (m_asim))
+			        { 	
+			        	//System.out.println(pair.getKey() + " = " + pair.getValue());
+			        	merger.put(pair.getKey(), pair.getValue() );
+			        	no_of_Records--;
+			        	
+			        	if(no_of_Records == 0) 
+			        		break;
+			        }
+	
+			        it.remove(); 
+			    }
+		}
+		//System.out.println("Unsorted Map:" +merger);
+		Map<Integer, Double> Sortedmerger = sortByComparator(merger); 
+		System.out.println("No of Documents Given: "+recordsRequired);
+		System.out.println("Sorted Merger: "+ Sortedmerger);
 
 	}
-
+	static Map<Integer,Double> readfile(String file)
+	{
+		BufferedReader inputStream = null;
+		Map<Integer,Double> map = new HashMap<Integer,Double>();
+		Map<Integer, Double> newMap = new TreeMap(Collections.reverseOrder());
+		try {
+		    inputStream = new BufferedReader(new FileReader(file));
+		    while (true) {
+		        String line = inputStream.readLine();
+		        if (line == null) {
+		            break;
+		        }
+		        String pair[]= line.split(" ");
+		        map.put(Integer.parseInt(pair[0]),Double.valueOf(pair[1]));
+		    
+		    }
+		    inputStream.close();
+		    newMap.putAll(map);
+		    return newMap;
+    	}
+		catch(Exception e){
+			System.out.print("No file found");
+			}
+		return newMap;
+		
+	}
+	
+	private static Map<Integer, Double> sortByComparator(Map<Integer, Double> unsortMap) {
+		 
+		// Convert Map to List
+		List<Map.Entry<Integer, Double>> list = 
+			new LinkedList<Map.Entry<Integer, Double>>(unsortMap.entrySet());
+ 
+		// Sort list with comparator, to compare the Map values
+		Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>() {
+			public int compare(Map.Entry<Integer, Double> o1,
+                                           Map.Entry<Integer, Double> o2) {
+				return (o2.getValue()).compareTo(o1.getValue());
+			}
+		});
+ 
+		// Convert sorted map back to a Map
+		Map<Integer, Double> sortedMap = new LinkedHashMap<Integer, Double>();
+		for (Iterator<Map.Entry<Integer, Double>> it = list.iterator(); it.hasNext();) {
+			Map.Entry<Integer, Double> entry = it.next();
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+		return sortedMap;
+	}
+ 
+	
+	
 }
+
