@@ -1,0 +1,326 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 5, 2014, 2:16:11 PM
+    Author     : divya1991
+*/
+.dropdown-submenu{position:relative;}
+.dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
+/*.dropdown-submenu:hover>.dropdown-menu{display:block;}*/
+.dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
+.dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
+.dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
+.highlight{
+border: red 3px solid;
+border-radius: 6px;
+}
+
+#saveBut {
+position: fixed;
+font-size: 1.2em;
+  top: 55px;
+  left: 70px;
+}
+
+ul{
+	max-width: 600px;
+}
+#lastSavedMailingId{
+position: fixed;
+font-size: 0.9em;
+z-index: 2000;
+top: 15px;
+right: 350px;
+}
+#historyDropdown{
+position: fixed;
+font-size: 0.9em;
+z-index: 2000;
+top: 10px;
+right: 200px;
+}
+
+#historyDropdown li{
+	font-size: 0.8em;
+padding: 5px 5px 5px 5px
+}
+/* #logOut { */
+/* position: fixed; */
+/* font-size: 1.2em; */
+/* z-index: 2000; */
+/*   top: 7px; */
+/*   right: 50px; */
+/* } */
+
+#resetBut {
+position: fixed;
+font-size: 1.2em;
+ top: 55px;
+  left: 160px;
+}
+.bb-alert {
+position: fixed;
+font-size: 1.2em;
+padding: 1em 1.3em;
+z-index: 2000;
+  top: 75px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#posCodeContainer fieldset {
+    display: block;
+/*     margin: 0 10px; */
+    float: left;
+}
+#matSelList>li:hover{
+	background:yellow;
+	cursor:cell;
+}
+#grpSelList>li:hover{
+	background:yellow;
+	cursor:cell;
+}
+#patronList>li:hover{
+	background:yellow;
+	cursor:cell;
+}
+#posCodeContainer input {
+	width: 50px;
+	disabled: true;
+}
+.overflow {
+      height: 200px;
+    }
+
+option{
+	white-space: nowrap;
+    width: 100%
+}
+select {
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#patronsDiv {
+	margin-left:10px;
+    height: 622px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    border: 1px solid;
+border-radius: 2px;
+}
+#LabelsDiv {
+
+    height: 590px;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    border: 1px solid;
+border-radius: 2px;
+}
+
+.navbar-collapse{
+		max-height: 700px;
+	
+	
+}
+.navbar-collapse.in{
+padding-left: 50px;
+}
+
+#grpSelDiv {
+    height: 200px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    border: 1px solid;
+border-radius: 2px;
+}
+#matSelDiv {
+    height: 200px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    border: 1px solid;
+border-radius: 2px;
+}
+
+                
+            #home{
+                background-color: #761818;
+                    margin-top:-15px;
+
+    background-image: url("../images/1metal_texture_36.jpg");
+/*     background-repeat: repeat; */
+
+            }
+               /* #main{
+                   background-color: #F5F3EE;
+                    min-height: 785px;
+                    box-shadow: 0px 3px 0px rgba(0,0,0,.5);
+                    margin-top:90px;
+                    margin-left:202px;
+                    margin-right:202px;
+                    padding:0;
+                    width:1060px;
+                    border-radius:10px;
+                    }
+               */
+               /* #header{
+                   // background-color:khaki;
+                   text-align: right;
+                    height: 100px;
+                    font-size: 35px;
+                    color: #FFFFFF;
+                    padding: 15px;
+                    width:1275px;
+                } */
+               .navbar {
+                   background-color: white;
+                   //padding: 2px 0px;
+                    font-size: 16px;
+                    
+               }
+               
+               .navbar-brand{
+                 
+                    padding: 2px 0px;
+                    font-size: 26px;
+                                       
+                }
+                #menu{
+                    border:1px;
+                    box-shadow: 20px 15px 35px 10px rgba(0,0,0,.4);
+                    background-color:#E0E7EE;;
+                    align:left;
+                    height: 100%;
+                    color: rgb(77,77,77);
+                    border-radius:10px;
+                    padding: 10px 35px 15px 25px;
+                    margin: 90px 50px 35px 50px;
+                    }
+                #content{
+                    margin:20px;
+                }
+                #state, #country, #city {
+                    padding: 5px;
+                    width: 100%;
+                    border-radius:5px;
+                    background-color:rgb(233, 235, 211);
+                   
+               }
+               #yr{
+                    padding: 5px;
+                    width: 100%;
+                    border-radius:5px;
+                    background-color:rgb(233, 235, 211);
+                   
+               }
+               
+               .date{
+                   background-color:palegoldenrod;
+                   border-radius:10px;
+               }
+               #dateinfo{
+                   margin-top:2px;
+               }
+               
+               #cart{
+                   border:1px;
+                   background-color: #F5F3EE;
+                   width: 12%;
+                   height: 50px;
+                   display:inline-block;
+                   box-shadow: 0px 0px 30px 10px rgba(0,0,0,.5);
+                   float:right;
+               }
+               #cartcontent{
+                   font-size: 25px;
+               }
+               
+                #footer{
+                   width: 100%;
+                    background-color: white;
+                    color: rgb(136, 136, 136);
+                    padding: 10px;
+                    margin-top: 20px;
+                }
+                #footer li
+                {
+                display:block;
+                float:left;
+                width:370px;
+                padding:0 5px 5px 10px;
+                text-align:center;
+                color:grey;
+                }
+                
+                #help{
+                    border:2px;
+                    margin: 155px;
+                    color: white;
+                    text-align: justify;
+                    font-size: 16px;
+                    
+                }
+               
+                #contact{
+                    border:2px;
+                    margin: 155px;
+                    color: white;
+                    text-align: justify;
+                    font-size: 16px;
+                    
+                }
+                #contact a:hover{
+                    color:white;
+                }
+                .carousel {
+  margin-bottom: 60px;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  z-index: 1;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel .item {
+  height: 400px;
+  background-color:#555;
+}
+.carousel img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 400px;
+}
+
+.loader {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	opacity: 0.5;
+/* 	background: url('../images/page-loader.gif') 50% 50% no-repeat rgb(249,249,249); */
+background-image: url(http://localhost:8080/ExpContacts/images/page-loader.gif);
+background-position-x: 50%;
+background-position-y: 50%;
+background-size: 15%;
+background-repeat-x: no-repeat;
+background-repeat-y: no-repeat;
+background-attachment: initial;
+background-origin: initial;
+background-clip: initial;
+background-color: rgb(249, 249, 249);
+}
+
+body.loading {
+    overflow: hidden;   
+}
+
+body.loading .modal {
+    display: block;
+}
