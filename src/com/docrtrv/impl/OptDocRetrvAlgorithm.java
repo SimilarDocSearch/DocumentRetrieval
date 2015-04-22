@@ -9,14 +9,21 @@ public class OptDocRetrvAlgorithm {
 
 	//Main method just for testing purpose
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int no_of_Records = 6;
-		String file[] = {"map1.txt", "map2.txt", "map3.txt", "map4.txt" };
-		processOptDocRetrv(no_of_Records, file);
+		//int no_of_Records = 7;
+		//String file[] = {"map1.txt"};//, "map2.txt", "map3.txt", "map4.txt" };
+		String myfile[] = {"DB_1.txt", "DB_2.txt", "DB_3.txt", "DB_4.txt", "DB_5.txt"};//, "DB_6.txt" };
+		init(no_of_Records, myfile);
 			
-	}
+	}*/
 	
+	public static void init(int no_of_Records)
+	{	//System.out.println("file array: "+file[0]+file[1]+file[2]+file[3]+file[4]);
+		//String myfile[] = {"map1.txt"};
+		String myfile[] = {"DB_1.txt", "DB_2.txt", "DB_3.txt", "DB_4.txt", "DB_5.txt", "DB_6.txt" };
+		processOptDocRetrv(no_of_Records, myfile);
+	}
 	public static void processOptDocRetrv(int recordsRequired, String file[])
 	{
 		Map<Integer,Double> merger = new HashMap<Integer,Double>();
@@ -57,13 +64,14 @@ public class OptDocRetrvAlgorithm {
 			    	//System.out.println("--"+it.next());
 			        Map.Entry<Integer, Double> pair = (Map.Entry)it.next();
 			        if(pair.getValue() >= (m_asim))
-			        { 	
+			        { 	//System.out.println("no_of_Records: "+no_of_Records);
+			        	if(no_of_Records == 0) 
+		        		break;
 			        	//System.out.println(pair.getKey() + " = " + pair.getValue());
 			        	merger.put(pair.getKey(), pair.getValue() );
 			        	no_of_Records--;
 			        	
-			        	if(no_of_Records == 0) 
-			        		break;
+			        	
 			        }
 	
 			        it.remove(); 
@@ -102,7 +110,7 @@ public class OptDocRetrvAlgorithm {
 		
 	}
 	
-	private static Map<Integer, Double> sortByComparator(Map<Integer, Double> unsortMap) {
+	public static Map<Integer, Double> sortByComparator(Map<Integer, Double> unsortMap) {
 		 
 		// Convert Map to List
 		List<Map.Entry<Integer, Double>> list = 
