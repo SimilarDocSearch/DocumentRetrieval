@@ -29,7 +29,7 @@ public class FastSimilairty {
 		
 		
 	}
-	public static void fastSimilarityInit(int no_of_Records, File folder, File query, int set) throws IOException
+	public static void fastSimilarityInit(int no_of_Records, File folder, String query, int set) throws IOException
 	{  	//System.out.println("performFastSimilarity called..");
 		double mnwi=0.0;
 		double avg_nwi=0.0;
@@ -45,36 +45,25 @@ public class FastSimilairty {
 	        	set++;
 	        	fastSimilarityInit(no_of_Records, fileEntry,query,set);
 	        	 	
-	        try{
-	        	if(set == 6)
-	   		 {	 System.out.println("Opt doc calling..");
-	   		 	 
-	   			 //OptDocRetrvAlgorithm.init(no_of_Records );
-	   		 }
-	   		 }
-	   		 catch(NoSuchElementException e)
-	   		 {
-	   			 System.out.print("");
-	   			
-	   		 }
-	        	
+	        
 	        } else {
 	        	
-	        	for (File q:query.listFiles())
-	    		{ 
+	        	//for (File q:query.listFiles())
+	    		//{ 
 	        		        	
 	        	i++;
 	            String Doc = Runme.file_to_String(fileEntry);
-	            String Query =Runme.file_to_String(q);
+//	            String Query =Runme.file_to_String(q);
+	            String Query = query;
 	            Double sim = tf_idf.cosineSimilarity (true, Doc,Query);
 	            sim = Math.round( sim * 100.0 ) / 100.0;
 	       		DB.put(Integer.parseInt(fileEntry.getName().replaceAll(".txt","")), sim);
 	       		SortedDB = Runme.Arrange_similar_Values(DB); 
-	        	// Get the maximum normailzed weight
+	        	// Get the maximum normalized weight
 	        	 mnwi = getMaxNormalizedWeight(SortedDB);
 	        	 // get the average normalized weight
 	        	 avg_nwi = getAvgNormalizedWeight(SortedDB);
-	    		}
+	    		//}
 	        	
 	        		        	
 	        }

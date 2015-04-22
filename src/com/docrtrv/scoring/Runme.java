@@ -24,33 +24,70 @@ import java.util.Scanner;
 
 import com.docrtrv.impl.FastSimilairty;
 import com.docrtrv.impl.OptDocRetrvAlgorithm;
+import com.docrtrv.impl.SubRangeEstimation;
 
 public class Runme {
 	
 	public static void main(String args[]) throws IOException, ParseException
 	{
+//		String maps[] = new String[6];
+//			
+//		// Read the query
+//		 File Query = new File("F:/Query");
+//		// read the db sets
+//		 File folder = new File("F:/DocumentSimilarity/DocumentRetrieval/datasets/DB_Set");
+//		 int no_of_Records = 5 ;
+//		 
+//		 System.out.println("Calculating Cosine similarities..");
+//		 Runme.readFolders(no_of_Records, folder, Query, 0, maps);
+//		 //System.out.println("Calculating opt doc mechnaism..");
+//		 //OptDocRetrvAlgorithm.init(no_of_Records,"Cosine");
+//		 
+//		 System.out.println("Calculating Fast similarities..");
+//		 FastSimilairty.fastSimilarityInit(no_of_Records,  folder, Query, 0);
+//		 FastSimilairty.FastSimilarityprocess(no_of_Records);
+//		 OptDocRetrvAlgorithm.init(no_of_Records,"FastSim");
+//		 
+//		 System.out.println("Calculating Sub Range Based similarities..");
+//		 SubRangeEstimation.SubRangeSimilarityInit(no_of_Records, folder, Query, 0);
+//		 SubRangeEstimation.SubRangeSimilarityProcess(no_of_Records);
+//		 OptDocRetrvAlgorithm.init(no_of_Records,"SubRangeSim");
+	}
+	
+	public static void processSearch(String query, int numberOfDocs, String method, String contextPath) throws IOException, ParseException
+	{
 		String maps[] = new String[6];
 			
 		// Read the query
-		 File Query = new File("F:/Query");
+		// File Query = new File("F:/Query");
 		// read the db sets
-		 File folder = new File("F:/DocumentSimilarity/DocumentRetrieval/datasets/DB_Set");
-		 int no_of_Records = 5 ;
+		 File folder = new File(contextPath);
+		 int no_of_Records = numberOfDocs ;
 		 
-		 System.out.println("Calculating cosine similarities..");
-		 Runme.readFolders(no_of_Records, folder, Query, 0, maps);
-		 
-		 System.out.println("Calculating Fast similarities..");
-		 FastSimilairty.fastSimilarityInit(no_of_Records,  folder, Query, 0);
+		 if("Cosine".equals(method)) {
+		 System.out.println("********  Calculating Cosine similarities  ********");
+		 Runme.readFolders(no_of_Records, folder, query, 0, maps);
+		 //System.out.println("Calculating opt doc mechnaism..");
+		 //OptDocRetrvAlgorithm.init(no_of_Records,"Cosine");
+		 }
+		 else if ("FastSim".equals(method)){
+		 System.out.println("********  Calculating Fast similarities  ********");
+		 FastSimilairty.fastSimilarityInit(no_of_Records,  folder, query, 0);
 		 FastSimilairty.FastSimilarityprocess(no_of_Records);
+		 System.out.println("********  Performing OptDocRetrvAlgorithm  ********");
 		 OptDocRetrvAlgorithm.init(no_of_Records,"FastSim");
-		 
-		 System.out.println("Calculating Sub Range Based similarities..");
-		 
-		 
+		 }
+		 else {
+		 System.out.println("********  Calculating Sub Range Based similarities  ********");
+		 SubRangeEstimation.SubRangeSimilarityInit(no_of_Records, folder, query, 0);
+		 SubRangeEstimation.SubRangeSimilarityProcess(no_of_Records);
+		 System.out.println("********  Performing OptDocRetrvAlgorithm  ********");
+		 OptDocRetrvAlgorithm.init(no_of_Records,"SubRangeSim");
+		 }
 	}
 	
-	public static void readFolders(int no_of_Records, File folder, File query, int set, String maps[]) throws IOException {
+	
+	public static void readFolders(int no_of_Records, File folder, String query, int set, String maps[]) throws IOException {
 		TfIDF tf_idf = new TfIDF();
 		List <HashMap<Integer,Double>> dblist = new ArrayList <HashMap<Integer,Double>>(); 
 		HashMap<Integer, Double> DB = new HashMap<Integer, Double>();
@@ -67,6 +104,8 @@ public class Runme {
 	        	if(set == 6)
 	   		 {	 System.out.println("Opt doc calling..");
 	   		 	 //set = 1;
+			 System.out.println("********  Performing OptDocRetrvAlgorithm  ********");
+
 	   			 OptDocRetrvAlgorithm.init(no_of_Records,"Cosine");
 	   		 }
 	   		 }
@@ -78,22 +117,23 @@ public class Runme {
 	        	
 	        } else {
 	        	
-	        	for (File q:query.listFiles())
-	    		{ 
+	        	//for (File q:query.listFiles())
+	    		//{ 
 	        		        	
 	        	i++;
 	            String Doc = file_to_String(fileEntry);
-	            String Query =file_to_String(q);
+//	            String Query =file_to_String(q);
+	            String Query = query;
 	            Double sim = tf_idf.cosineSimilarity (true, Doc,Query);
 	            sim = Math.round( sim * 100.0 ) / 100.0;
 	       		//System.out.println("Similarity performed..");
 	            DB.put(Integer.parseInt(fileEntry.getName().replaceAll(".txt","")), sim);
 	            
 	           // System.out.println(i+" "+fileEntry.getName().replaceAll(".txt","")+" "+sim);
-	         // sort the Map in descending order of similarity..
+	           // sort the Map in descending order of similarity..
 	        	 SortedDB = Arrange_similar_Values(DB); 
 	        	//System.out.println("Sorted.."+SortedDB);
-	    		}
+	    		//}
 	        	
 	        		        	
 	        }

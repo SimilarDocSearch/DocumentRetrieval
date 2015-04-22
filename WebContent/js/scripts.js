@@ -76,6 +76,13 @@ $( document ).ready(function() {
 
 function getSearchResult(){
 	var number = $('#numberOfDocs').val();
+	var query = $('#query').val();
+	var method = $("#method").val();
+	
+	
+	
+	
+	
 	var rankedDBs = $('#rankedDBs').dataTable({
 		"ajax": {
 			"url": "getRankedDatabases.jsp?number="+ number,
