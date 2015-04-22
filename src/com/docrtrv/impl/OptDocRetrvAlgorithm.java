@@ -18,11 +18,17 @@ public class OptDocRetrvAlgorithm {
 			
 	}*/
 	
-	public static void init(int no_of_Records)
+	public static void init(int no_of_Records, String choice)
 	{	//System.out.println("file array: "+file[0]+file[1]+file[2]+file[3]+file[4]);
 		//String myfile[] = {"map1.txt"};
 		String myfile[] = {"DB_1.txt", "DB_2.txt", "DB_3.txt", "DB_4.txt", "DB_5.txt", "DB_6.txt" };
-		processOptDocRetrv(no_of_Records, myfile);
+		String FastSimfile[] = {"fastSim_1.txt", "fastSim_2.txt", "fastSim_3.txt", "fastSim_4.txt", "fastSim_5.txt"};
+		//processOptDocRetrv(no_of_Records, myfile);
+		if (choice.equals("Cosine"))
+			processOptDocRetrv(no_of_Records, myfile);
+		
+		if (choice.equals("FastSim"))
+			processOptDocRetrv(no_of_Records, FastSimfile);
 	}
 	public static void processOptDocRetrv(int recordsRequired, String file[])
 	{

@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,11 +22,12 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import com.docrtrv.impl.FastSimilairty;
 import com.docrtrv.impl.OptDocRetrvAlgorithm;
 
 public class Runme {
 	
-	public static void main(String args[]) throws IOException
+	public static void main(String args[]) throws IOException, ParseException
 	{
 		String maps[] = new String[6];
 			
@@ -34,11 +36,18 @@ public class Runme {
 		// read the db sets
 		 File folder = new File("F:/DocumentSimilarity/DocumentRetrieval/datasets/DB_Set");
 		 int no_of_Records = 5 ;
-		 System.out.println("Calculating similarities..");
+		 
+		 System.out.println("Calculating cosine similarities..");
 		 Runme.readFolders(no_of_Records, folder, Query, 0, maps);
-		 //System.out.println("Opt doc calling..");
-		// OptDocRetrvAlgorithm.init(no_of_Records );
-	
+		 
+		 System.out.println("Calculating Fast similarities..");
+		 FastSimilairty.fastSimilarityInit(no_of_Records,  folder, Query, 0);
+		 FastSimilairty.FastSimilarityprocess(no_of_Records);
+		 OptDocRetrvAlgorithm.init(no_of_Records,"FastSim");
+		 
+		 System.out.println("Calculating Sub Range Based similarities..");
+		 
+		 
 	}
 	
 	public static void readFolders(int no_of_Records, File folder, File query, int set, String maps[]) throws IOException {
@@ -58,7 +67,7 @@ public class Runme {
 	        	if(set == 6)
 	   		 {	 System.out.println("Opt doc calling..");
 	   		 	 //set = 1;
-	   			 OptDocRetrvAlgorithm.init(no_of_Records );
+	   			 OptDocRetrvAlgorithm.init(no_of_Records,"Cosine");
 	   		 }
 	   		 }
 	   		 catch(NoSuchElementException e)
@@ -91,29 +100,14 @@ public class Runme {
 	        	        
 	   	}
 		
-		//System.out.println("SortedDB: "+ SortedDB);
-		// put the sim values in a file
-		 //System.out.println("Data "+set+" accessed..");
 		
 		 maps[set-1] = "DB_"+set+".txt" ; 
 		
 		 put_sims_in_file(SortedDB, "DB_"+Integer.toString(set));
-		 //System.out.println("after process set val: "+set);
-		/* try{
-		 if(set > 6)
-		 {	 System.out.println("Opt doc calling..");
-		 	 //set = 1;
-			 OptDocRetrvAlgorithm.init(no_of_Records );
-		 }
-		 }
-		 catch(NoSuchElementException e)
-		 {
-			 System.out.print("");
-			 
-		 }*/
+		 
 		 
 	}
-	static String file_to_String(File file) throws IOException
+	public static String file_to_String(File file) throws IOException
 	{	String Document = "";
 		 BufferedReader in = new BufferedReader(new FileReader(file));
          try {
@@ -132,7 +126,7 @@ public class Runme {
          }
 
 	}
-	static void put_sims_in_file(HashMap<Integer,Double> map, String fileName)
+	public static void put_sims_in_file(HashMap<Integer,Double> map, String fileName)
 	{		//System.out.println(fileName);
 		 	try {
 			 FileWriter fstream;
@@ -140,11 +134,12 @@ public class Runme {
 			 fstream = new FileWriter(fileName+".txt");
 			 out = new BufferedWriter(fstream);
 			 Iterator<Entry<Integer,Double>> it = map.entrySet().iterator();
-			 while (it.hasNext()) {
+			 while (it.hasNext()) {	
 			        Map.Entry<Integer,Double> pairs = it.next();
-			        out.write(pairs.getKey()+" "+pairs.getValue());
-			        out.newLine();
-
+		            out.write(pairs.getKey()+" "+pairs.getValue());
+		        	out.newLine();
+			        
+			       
 			    }
 			 
 			    out.close();
