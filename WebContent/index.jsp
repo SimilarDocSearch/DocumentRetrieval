@@ -38,10 +38,10 @@
 							<div style="text-align: center">
 								<form class="form-horizontal">
 									<div class="form-group">
-										<label for="inputEmail" class="control-label col-xs-2">Enter
+										<label for="query" class="control-label col-xs-2">Enter
 											Search Query</label>
 										<div class="col-xs-10">
-											<input type="text" class="form-control" id="inputEmail">
+											<input type="text" class="form-control" id="query">
 										</div>
 									</div>
 									<div class="form-group">
@@ -52,13 +52,13 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="rankingMethod" class="control-label col-xs-2">Select
+										<label for="method" class="control-label col-xs-2">Select
 											Ranking Method</label>
 										<div class="col-xs-3">
-											<select class="form-control" id="rankingMethod">
-												<option value="cosine">Cosine Similarity</option>
-												<option value="subrange">Subrange-Based</option>
-												<option value="fastSim">Fast-Similarity</option>
+											<select class="form-control" id="method">
+												<option value="Cosine">Cosine Similarity</option>
+												<option value="SubRangeSim">Subrange-Based</option>
+												<option value="FastSim">Fast-Similarity</option>
 											</select>
 										</div>
 									</div>

@@ -1,5 +1,6 @@
 package com.docrtrv.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,17 +14,18 @@ public class BFSGenerator {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int n=4;
-		String file[] = {"map1.txt", "map2.txt", "map3.txt", "map4.txt" };
+		//File file[] = {"map1.txt", "map2.txt", "map3.txt", "map4.txt" };
 		String q ="my query";
 		Map<Integer,Double> resultMap = new HashMap<Integer,Double>();
 		
 		ArrayList<Map<Integer,Double>> dblist = new ArrayList<Map<Integer,Double>>(); 
-		for(String f: file){
+		File file = new File("temp.txt");
+		//for(File f: file){
 			Map<Integer,Double> map = new HashMap<Integer,Double>();
-			map = OptDocRetrvAlgorithm.readfile(f);
+			//map = OptDocRetrvAlgorithm.readfile(f);
 			//System.out.println("map: " + map);
 			dblist.add(map);
-		}
+		//}
 				
 		resultMap = processBFSGenerator(n,q,dblist);
 		System.out.println("Final BFS Generated List: "+ resultMap);

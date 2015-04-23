@@ -79,7 +79,11 @@ function getSearchResult(){
 	var query = $('#query').val();
 	var method = $("#method").val();
 	
-	
+	$.ajax({
+		  url: "processSearch.jsp?number="+number+"&query="+query+"&method="+method,
+		}).done(function() {
+		  alert("done");
+		});
 	
 	
 	

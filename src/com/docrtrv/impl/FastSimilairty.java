@@ -17,20 +17,20 @@ import com.docrtrv.scoring.TfIDF;
 public class FastSimilairty {
 	
 	//Main method just for testing purpose
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, IOException {
 		// TODO Auto-generated method stub
 		//int no_of_Records; 
 		//File folder;
 		//File query;
 		//performFastSimilarity(no_of_Records,folder,query);
 		FastSimilarityprocess(5);
-		System.out.println("Fast Sim done..");
-		OptDocRetrvAlgorithm.init(5,"FastSim");
+		//System.out.println("Fast Sim done..");
+		OptDocRetrvAlgorithm.init(5,"FastSim", null, null);
 		
 		
 	}
 	public static void fastSimilarityInit(int no_of_Records, File folder, String query, int set) throws IOException
-	{  	//System.out.println("performFastSimilarity called..");
+	{  	////System.out.println("performFastSimilarity called..");
 		double mnwi=0.0;
 		double avg_nwi=0.0;
 			
@@ -39,7 +39,14 @@ public class FastSimilairty {
 		HashMap<Integer, Double> DB = new HashMap<Integer, Double>();
 		HashMap<Integer, Double> SortedDB = new HashMap<Integer, Double>(); 
 		int i = 0;
-		 
+		
+		ArrayList<String> file_names = new ArrayList<String>();
+		for(int p = 1; p<=6;p++){
+			file_names.add(new String("DB_"+p));
+			file_names.add(new String("fastSim_"+p));
+			file_names.add(new String("Fast_Temp_DB_"+p));
+		}
+		
 		for ( File fileEntry : folder.listFiles()) {
 	        if (fileEntry.isDirectory()) {
 	        	set++;
@@ -50,7 +57,8 @@ public class FastSimilairty {
 	        	
 	        	//for (File q:query.listFiles())
 	    		//{ 
-	        		        	
+	        	if(!file_names.contains(fileEntry.getName()) )
+	        	{
 	        	i++;
 	            String Doc = Runme.file_to_String(fileEntry);
 //	            String Query =Runme.file_to_String(q);
@@ -64,36 +72,62 @@ public class FastSimilairty {
 	        	 // get the average normalized weight
 	        	 avg_nwi = getAvgNormalizedWeight(SortedDB);
 	    		//}
-	        	
+	        	}
 	        		        	
 	        }
 	        	        
 	   	}
 		
-		//System.out.println("max mnwi:"+mnwi);
-		//System.out.println("avg_nwi:"+avg_nwi);
+		////System.out.println("max mnwi:"+mnwi);
+		////System.out.println("avg_nwi:"+avg_nwi);
 		
 		// put gathered values into givne equation..
 		SortedDB.put(1000, mnwi);
 		SortedDB.put(1001, avg_nwi);
 		
-		 Runme.put_sims_in_file(SortedDB, "Fast_Temp_DB_"+Integer.toString(set));
+		 Runme.put_sims_in_file(SortedDB, "Fast_Temp_DB_"+Integer.toString(set),set);
 		 
 	
 		
 		
 	}
 	
-	public static void FastSimilarityprocess(int no_of_Records ) throws ParseException
+	public static File[] FastSimilarityprocess(int no_of_Records ) throws ParseException
 	{
-		//System.out.println("FastSimilarityprocess called..");
+		////System.out.println("FastSimilarityprocess called..");
 		// aply the given eqaution on gathered values..
+		ArrayList file_names = new ArrayList<String>();
+		ArrayList<File> Arr = new ArrayList<File>();
+		for(int p = 1; p<=6;p++){
+			file_names.add(new String("Fast_Temp_DB_"+p));
+		}
 		String myfile[] = {"Fast_Temp_DB_1.txt", "Fast_Temp_DB_2.txt", "Fast_Temp_DB_3.txt", "Fast_Temp_DB_4.txt", "Fast_Temp_DB_5.txt"};
-		FastSim(no_of_Records, myfile);
+		File mynewFiles[] = new File[5];
+		Arr =	SubRangeEstimation.abc("DB");
+		for(int i = 0; i<myfile.length;i++)
+		{
+			if(Arr.toString().contains(myfile[i]))
+			{ 	
+				int index = SubRangeEstimation.getIndex(myfile[i],Arr);
+				//System.out.println("index: "+index);
+				//System.out.println(Arr.get(index));
+				mynewFiles[i] =Arr.get(index);
+			}
+		}
+		for(int i = 0; i<myfile.length;i++)
+		{
+			//System.out.println("mynewFiles[i]: "+mynewFiles[i]);
+		}
+		
+		
+		
+		
+		FastSim(no_of_Records, mynewFiles);
+		return mynewFiles;
 		
 		
 	}
-	public static void FastSim(int recordsRequired, String file[]) throws ParseException
+	public static void FastSim(int recordsRequired, File[] file) throws ParseException
 	{	// Main implementation of fast Sim..
 		double max_norm =  0.0;
 		double avg_norm = 0.0 ;
@@ -101,11 +135,11 @@ public class FastSimilairty {
 		int i = 0;
 		Map<Integer,Double> myData = new HashMap<Integer,Double>();
 		HashMap<Integer,Double> tempMap = new HashMap<Integer,Double>();
-		for(String f: file){
+		for(File f: file){
 			i++;
 			//Map<Integer,Double> myData = new HashMap<Integer,Double>();
 			myData = OptDocRetrvAlgorithm.readfile(f);
-			//System.out.println("myData: " + myData);
+			////System.out.println("myData: " + myData);
 			for(Map.Entry<Integer, Double> entry : myData.entrySet()) {
 				  Integer key = entry.getKey();
 				  Double value = entry.getValue();
@@ -122,13 +156,13 @@ public class FastSimilairty {
 				  DecimalFormat df=new DecimalFormat("0.00");
 				  String formate = df.format(sim); 
 				  double finalValue = (Double)df.parse(formate) ;
-				  //System.out.println(key +"::"+ finalValue);
+				  ////System.out.println(key +"::"+ finalValue);
 				  tempMap.put(key, finalValue);
 				  
 				}
 			tempMap = Runme.Arrange_similar_Values(tempMap);
 			tempMap.remove(1000);tempMap.remove(1001);
-			Runme.put_sims_in_file(tempMap,"fastSim_"+i);
+			Runme.put_sims_in_file(tempMap,"fastSim_"+i,i);
 			tempMap.clear();
 			myData.clear();
 		}
@@ -148,8 +182,8 @@ public class FastSimilairty {
 				  max_val =value;
 			}
 		
-		//System.out.println("Mymap:"+myMap);
-		//System.out.println("max val:"+max_val);
+		////System.out.println("Mymap:"+myMap);
+		////System.out.println("max val:"+max_val);
 		return max_val;
 	}
 	public static Double getAvgNormalizedWeight(HashMap<Integer, Double> SortedDB)
@@ -162,7 +196,7 @@ public class FastSimilairty {
 			  Integer key = entry.getKey();
 			  Double value = entry.getValue();
 			  sum = sum + value; 
-			  //System.out.println(key + " => " + value);
+			  ////System.out.println(key + " => " + value);
 			}
 		avg =sum/myMap.size();
 		return avg;
