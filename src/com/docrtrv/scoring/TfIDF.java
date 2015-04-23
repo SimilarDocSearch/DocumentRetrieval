@@ -1,5 +1,6 @@
 package com.docrtrv.scoring;
-// we reffered some of the related TF-IDf codes for it's implementation..
+// we reffered some of the related TF-IDf codes for it's implementation and reimplemented it 
+//but we  were unable to get the exact file location for the code we referred..
 import java.util.ArrayList;
 import java.util.List;
 public class TfIDF {
