@@ -1,94 +1,69 @@
 package com.docrtrv.scoring;
-
+// we reffered some of the related TF-IDf codes for it's implementation..
 import java.util.ArrayList;
 import java.util.List;
 public class TfIDF {
 
-	 public double cosineSimilarity (boolean print, String str1, String str2) {
-        List<String> terms = new ArrayList<>();
-        List<Double> doc1 = new ArrayList<>();
-        List<Double> doc2 = new ArrayList<>();
+	 public double cosineSimilarity (boolean print, String st1, String st2) {
+        List<String> words = new ArrayList<>();
+        List<Double> word_i = new ArrayList<>();
+        List<Double> word_j = new ArrayList<>();
 
-        String[] docs = new String[2];
-        docs[0] = str1;
-        docs[1] = str2;
+        String[] strings = new String[2];
+        strings[0] = st1;
+        strings[1] = st2;
 
-        for (int i = 0; i < docs.length; i++) {
-            for (String s : docs[i].split(" ")) {
-                if (!terms.contains(s)) {
-                    terms.add(s);
+        for (int i = 0; i < strings.length; i++) {
+            for (String s : strings[i].split(" ")) {
+                if (!words.contains(s)) {
+                    words.add(s);
                 }
             }
         }
 
-        for(String s : terms) {
-            double tempCount = 0.0;
-            for (int i = 0; i < docs.length; i++) {
-                for (String str : docs[i].split(" ")) {
+        for(String s : words) {
+            double count = 0.0;
+            for (int i = 0; i < strings.length; i++) {
+                for (String str : strings[i].split(" ")) {
                     if(str.equals(s)) {
-                        tempCount++;
+                        count++;
                     }
                 }
                 if (i == 0) {
-                    doc1.add(tempCount);
+                    word_i.add(count);
                 } else if (i == 1) {
-                    doc2.add(tempCount);
+                    word_j.add(count);
                 }
-                tempCount = 0.0;
+                count = 0.0;
             }
         }
 
-        if(print) {
-            for (String s : terms) {
-                //System.out.print(s + " ");
-            }
+        
 
-            //System.out.println();
-
-            //System.out.print("A = [ ");
-            for (Double i : doc1) {
-                //System.out.print(i + " ");
-            }
-            //System.out.print("];");
-
-            //System.out.println();
-
-            //System.out.print("B = [ ");
-            for (Double i : doc2) {
-                //System.out.print(i + " ");
-            }
-            //System.out.print("];");
-        }
-
-        double[] d1 = new double[doc1.size()];
+        double[] d1 = new double[word_i.size()];
         for (int i = 0; i < d1.length; i++) {
-            d1[i] = doc1.get(i);
+            d1[i] = word_i.get(i);
         }
 
-        double[] d2 = new double[doc2.size()];
+        double[] d2 = new double[word_j.size()];
         for (int i = 0; i < d2.length; i++) {
-            d2[i] = doc2.get(i);
+            d2[i] = word_j.get(i);
         }
 
-        if(!print) {
-            //System.out.println(cosine(d1, d2));
-        } else if (print) {
-           // System.out.println("\n" + cosine(d1, d2));
-        }
-        return cosine(d1, d2);
+        return cos_sim(d1, d2);
     }
 
-    public double cosine(double[] vectorA, double[] vectorB) {
-        double dotProduct = 0.0;
-        double normA = 0.0;
-        double normB = 0.0;
-        for (int i = 0; i < vectorA.length; i++) {
-            dotProduct += vectorA[i] * vectorB[i];
-            normA += Math.pow(vectorA[i], 2);
-            normB += Math.pow(vectorB[i], 2);
+    public double cos_sim(double[] word_1, double[] word_2) {
+        double result = 0.0;
+        double var_a = 0.0;
+        double var_b = 0.0;
+        for (int i = 0; i < word_1.length; i++) {
+            result += word_1[i] * word_2[i];
+            var_a += Math.pow(word_1[i], 2);
+            var_b += Math.pow(word_2[i], 2);
         }
         
-        return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+        return result / (Math.sqrt(var_a) * Math.sqrt(var_b));
     }
 	
 }
