@@ -12,7 +12,7 @@ public class TfIDF {
         String[] strings = new String[2];
         strings[0] = st1;
         strings[1] = st2;
-
+    
         for (int i = 0; i < strings.length; i++) {
             for (String s : strings[i].split(" ")) {
                 if (!words.contains(s)) {
